@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean backPressedOnce = false;
     private Handler statusUpdateHandler = new Handler();
     private Runnable statusUpdateRunnable;
+    private ProgressBar spinner;
 
     RequestQueue queue;
     String url ="https://a.lucky-games.online/click?" +
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -43,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
         webView.getSettings().getUserAgentString();
         webView.setWebViewClient(new CustomWebViewClient());
 
-        String str = webView.getSettings().getUserAgentString();
-        Log.i("My User Agent", str);
+        spinner = (ProgressBar)findViewById(R.id.progressBar1);
+        spinner.setVisibility(View.VISIBLE);
 
 //        webView.loadUrl("file:///android_asset/cube-loader.html");
         volleyServer();
@@ -55,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                       Log.i("response", response);
+//                       Log.i("response", response);
 
                        // Проверка что показывать, а пока
                         Random r = new Random();
@@ -63,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                         if(choice==0) {
                             url = "file:///android_asset/game-js.html";
                         }
-
+                        spinner.setVisibility(View.GONE);
                         webView.loadUrl(url);
                     }
                 }, new Response.ErrorListener() {
