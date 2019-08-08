@@ -12,9 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/Theme.AppCompat.NoActionBar"
         android:hardwareAccelerated="true">
-        <!-- android:theme="@style/Theme.AppCompat.NoActionBar"> -->
+        <!-- android:theme="@style/AppTheme" -->
         <!-- android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"> -->
         <activity
             android:name="com.example.mybrowserandgame.MainActivity"

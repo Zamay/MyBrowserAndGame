@@ -2,8 +2,10 @@ package com.example.mybrowserandgame;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -17,16 +19,15 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     private WebView webView;
-    public static final String USER_AGENT = "Mozilla/5.0 (Linux; Android 4.1.1; " +
-            "Galaxy Nexus Build/JRO03C) AppleWebKit/535.19 (KHTML, like Gecko) " +
-            "Chrome/18.0.1025.166 Mobile Safari/535.19";
+    private boolean backPressedOnce = false;
+    private Handler statusUpdateHandler = new Handler();
+    private Runnable statusUpdateRunnable;
 
     RequestQueue queue;
     String url ="https://a.lucky-games.online/click?" +
             "pid=720&" +
             "offer_id=3048&" +
             "l=1554545944";
-//    String url ="https://a.lucky-games.online/click?pid=720&offer_id=3048";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +40,13 @@ public class MainActivity extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setAllowFileAccess(true);
-        webView.getSettings().setUserAgentString(USER_AGENT);
+        webView.getSettings().getUserAgentString();
         webView.setWebViewClient(new CustomWebViewClient());
 
-//        webView.loadUrl(url);
+        String str = webView.getSettings().getUserAgentString();
+        Log.i("My User Agent", str);
+
+//        webView.loadUrl("file:///android_asset/cube-loader.html");
         volleyServer();
     }
 
@@ -78,24 +82,41 @@ public class MainActivity extends AppCompatActivity {
                             url = error.networkResponse.headers.get("Location");
                             volleyServer();
                         }
-
-                        // Пример
-//                        if (status == HttpStatus.SC_MOVED_PERMANENTLY || status == HttpStatus.SC_MOVED_TEMPORARILY) {
-//                            String newUrl = responseHeaders.get("Location");
-//                            request.setRedirectUrl(newUrl);
-//                        }
                     }
                 };
         queue.add(stringRequest);
     }
 
     // Кнопка назад
-    @Override
     public void onBackPressed() {
         if(webView.canGoBack()) {
             webView.goBack();
         } else {
-            super.onBackPressed();
+
+            if(backPressedOnce) {
+                super.onBackPressed();
+            }
+
+            backPressedOnce = true;
+            final Toast toast = Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT);
+            toast.show();
+
+            statusUpdateRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    backPressedOnce = false;
+                    toast.cancel();
+                }
+            };
+            statusUpdateHandler.postDelayed(statusUpdateRunnable, 2000);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (statusUpdateHandler != null) {
+            statusUpdateHandler.removeCallbacks(statusUpdateRunnable);
         }
     }
 
