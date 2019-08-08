@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         webView.getSettings().getUserAgentString();
         webView.setWebViewClient(new CustomWebViewClient());
 
-        spinner = (ProgressBar)findViewById(R.id.progressBar1);
+        spinner = findViewById(R.id.progressBar1);
         spinner.setVisibility(View.VISIBLE);
 
 //        webView.loadUrl("file:///android_asset/cube-loader.html");
