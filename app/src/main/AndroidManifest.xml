@@ -17,9 +17,7 @@
         android:theme="@style/AppTheme"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true">
-        <!-- android:theme="@style/AppTheme" -->
         <!--android:theme="@style/AppTheme.Launcher"-->
-        <!-- android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"> -->
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize">

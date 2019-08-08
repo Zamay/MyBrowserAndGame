@@ -8,10 +8,4 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!--<style name="AppTheme.Launcher">-->
-        <!--<item name="android:windowBackground">@drawable/launch_screen</item>-->
-        <!--&lt;!&ndash; для Android 5+ вы можете поменять цвет colorPrimaryDark, чтобы соответствовать цвету windowBackground &ndash;&gt;-->
-        <!--&lt;!&ndash; <item name="colorPrimaryDark">@android:color/white</item> &ndash;&gt;-->
-    <!--</style>-->
-
 </resources>
